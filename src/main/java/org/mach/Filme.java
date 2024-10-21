@@ -7,14 +7,20 @@ public class Filme {
 
     private final String nome;
     private final int anoDeLancamento;
+    private final int duracaoEmMinutos;
     private final boolean incluidoNoPlano;
-    private final List<Double> notas;
+    private final String fichatecnica;
 
-    public Filme(String nome, int anoDeLancamento, boolean incluidoNoPlano, List<Double> notas) {
+    private final List<Integer> avaliacoes = new ArrayList<>();
+    private int totalAvaliacoes = 0;
+    private int somaDasAvaliacoes = 0;
+
+    public Filme(String nome, int anoDeLancamento, int duracaoEmMinutos, boolean incluidoNoPlano, String fichatecnica) {
         this.nome = nome;
         this.anoDeLancamento = anoDeLancamento;
+        this.duracaoEmMinutos = duracaoEmMinutos;
         this.incluidoNoPlano = incluidoNoPlano;
-        this.notas = new ArrayList<>(notas);
+        this.fichatecnica = fichatecnica;
     }
 
     public String getNome() {
@@ -25,26 +31,37 @@ public class Filme {
         return anoDeLancamento;
     }
 
-    public boolean isIncluidoNoPlano() {
-        return incluidoNoPlano;
+    public int getDuracaoEmMinutos() {
+        return duracaoEmMinutos;
     }
 
-    public double getNota() {
-        if (notas.isEmpty()) {
+    public String isIncluidoNoPlano() {
+        return incluidoNoPlano ? "Sim." : "Não.";
+    }
+
+    public String getFichatecnica() {
+        return fichatecnica;
+    }
+
+    public void adicionarAvaliacao(int novaAvaliacao) {
+        this.avaliacoes.add(novaAvaliacao);
+        this.totalAvaliacoes++;
+        this.somaDasAvaliacoes += novaAvaliacao;
+    }
+
+    private double calcularMediaAvaliacoes() {
+        if (totalAvaliacoes == 0) {
             return 0;
         }
-        double soma = 0;
-        for (double nota : notas) {
-            soma += nota;
-        }
-        return soma / notas.size();
+        return (double) somaDasAvaliacoes / totalAvaliacoes;
     }
 
-    public double calcularRating() {
-        return getNota();
+    public double getMediaAvaliacoes() {
+        return calcularMediaAvaliacoes();
     }
 
-    public int getQuantidadeAvaliacoes() {
-        return notas.size();
+    public int getTotalAvaliacoes() {
+        return totalAvaliacoes;
     }
+
 }
