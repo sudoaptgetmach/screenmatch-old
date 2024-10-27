@@ -5,7 +5,7 @@ import org.mach.calculos.Classificavel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Titulo implements Classificavel {
+public class Titulo implements Classificavel, Comparable<Titulo> {
 
     private final String nome;
     private final int anoDeLancamento;
@@ -13,7 +13,7 @@ public class Titulo implements Classificavel {
     private final String fichatecnica;
     private final boolean incluidoNoPlano;
 
-    private List<Integer> avaliacoes = new ArrayList<>();
+    private final List<Integer> avaliacoes = new ArrayList<>();
     private int totalAvaliacoes = 0;
     private int somaDasAvaliacoes = 0;
 
@@ -71,5 +71,10 @@ public class Titulo implements Classificavel {
 
         return this instanceof Filme ? "Filme: " + this.getNome() + " ("+this.getAnoDeLancamento()+")" : "Série: " + this.getNome() + " ("+this.getAnoDeLancamento()+")";
 
+    }
+
+    @Override
+    public int compareTo(Titulo o) {
+        return this.getNome().compareTo(o.getNome());
     }
 }
