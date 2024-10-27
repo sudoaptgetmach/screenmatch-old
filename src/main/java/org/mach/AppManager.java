@@ -10,17 +10,19 @@ import org.mach.modelos.Titulo;
 import java.util.ArrayList;
 
 public class AppManager {
-    private Filme filme;
-    private Filme filme2;
-    private Serie serie;
-    private Serie serie2;
-    private FiltroRecomendacao filtro;
-    private Episodio episodio;
-    private CalculoTempo calculadora;
+    private final Filme filmeTeste;
+    private final Filme filme;
+    private final Filme filme2;
+    private final Serie serie;
+    private final Serie serie2;
+    private final FiltroRecomendacao filtro;
+    private final Episodio episodio;
+    private final CalculoTempo calculadora;
 
     ArrayList<Titulo> listaDeTitulos = new ArrayList<>();
 
     public AppManager() {
+        this.filmeTeste = new Filme("teste", 2009, 300, "Lorem ipsum.");
         this.filme = new Filme("Filme 1", 2000, 300, "Lorem ipsum.");
         this.filme2 = new Filme("Filme 2", 2022, 300, "Lorem ipsum.");
         this.serie = new Serie("Serie 1", 1998, 30, "Lorem ipsum.");
@@ -52,7 +54,16 @@ public class AppManager {
 
     public void runTeste() {
 
-        var filmeTeste = new Filme("teste", 2009, 300, "Lorem ipsum.");
+        filmeTeste.adicionarAvaliacao((int) (Math.random() * 10));
+        filmeTeste.adicionarAvaliacao((int) (Math.random() * 10));
+        filme.adicionarAvaliacao((int) (Math.random() * 10));
+        filme.adicionarAvaliacao((int) (Math.random() * 10));
+        filme2.adicionarAvaliacao((int) (Math.random() * 10));
+        filme2.adicionarAvaliacao((int) (Math.random() * 10));
+        serie.adicionarAvaliacao((int) (Math.random() * 10));
+        serie.adicionarAvaliacao((int) (Math.random() * 10));
+        serie2.adicionarAvaliacao((int) (Math.random() * 10));
+        serie2.adicionarAvaliacao((int) (Math.random() * 10));
 
         System.out.println("Nome: " + filmeTeste.getNome());
         System.out.println("Ano de lançamento: " + filmeTeste.getAnoDeLancamento());
@@ -66,8 +77,16 @@ public class AppManager {
         listaDeTitulos.add(filme2);
         listaDeTitulos.add(serie);
         listaDeTitulos.add(serie2);
-        System.out.println(listaDeTitulos.size());
-        System.out.println(listaDeTitulos.toString());
+        System.out.println("Quantidade de títulos no catálogo: " + listaDeTitulos.size());
 
+        listaDeTitulos.forEach(titulo -> {
+            System.out.println(titulo);
+
+            if (titulo instanceof Filme filmeInstance) {
+                System.out.println("Classificação: " + filmeInstance.getClassificacao());
+            } else if (titulo instanceof Serie serieInstance) {
+                System.out.println("Classificação: " + serieInstance.getClassificacao());
+            }
+        });
     }
 }
