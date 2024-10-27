@@ -42,4 +42,9 @@ public class Serie extends Titulo {
     public void setMinutosPorEpisodio(int minutosPorEpisodio) {
         this.minutosPorEpisodio = minutosPorEpisodio;
     }
+
+    @Override
+    public int getClassificacao() {
+        return (int) (this.getMediaAvaliacoes() / 2);
+    }
 }

@@ -1,9 +1,11 @@
 package org.mach.modelos;
 
+import org.mach.calculos.Classificavel;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Titulo {
+public class Titulo implements Classificavel {
 
     private final String nome;
     private final int anoDeLancamento;
@@ -58,5 +60,16 @@ public class Titulo {
 
     public int getTotalAvaliacoes() {
         return totalAvaliacoes;
+    }
+
+    @Override
+    public int getClassificacao() {
+        return 0;
+    }
+
+    public String toString(){
+
+        return this instanceof Filme ? "Filme: " + this.getNome() + " ("+this.getAnoDeLancamento()+")" : "Série: " + this.getNome() + " ("+this.getAnoDeLancamento()+")";
+
     }
 }
