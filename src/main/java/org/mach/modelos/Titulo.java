@@ -1,5 +1,6 @@
 package org.mach.modelos;
 
+import com.google.gson.annotations.SerializedName;
 import org.mach.calculos.Classificavel;
 
 import java.util.ArrayList;
@@ -7,11 +8,14 @@ import java.util.List;
 
 public class Titulo implements Classificavel, Comparable<Titulo> {
 
+    @SerializedName("Title")
     private final String nome;
+    @SerializedName("Year")
     private final int anoDeLancamento;
     private final int duracaoEmMinutos;
+    @SerializedName("Plot")
     private final String fichatecnica;
-    private final boolean incluidoNoPlano;
+    private boolean incluidoNoPlano;
 
     private final List<Integer> avaliacoes = new ArrayList<>();
     private int totalAvaliacoes = 0;
@@ -23,6 +27,13 @@ public class Titulo implements Classificavel, Comparable<Titulo> {
         this.duracaoEmMinutos = duracaoEmMinutos;
         this.fichatecnica = fichatecnica;
         this.incluidoNoPlano = false;
+    }
+
+    public Titulo(TituloOmdb titulo) {
+        this.nome = titulo.title();
+        this.anoDeLancamento = Integer.parseInt(titulo.year());
+        this.duracaoEmMinutos = Integer.parseInt(titulo.runtime().substring(0, 3));
+        this.fichatecnica = titulo.plot();
     }
 
     public String getNome() {
@@ -67,10 +78,15 @@ public class Titulo implements Classificavel, Comparable<Titulo> {
         return 0;
     }
 
-    public String toString(){
-
-        return this instanceof Filme ? "Filme: " + this.getNome() + " ("+this.getAnoDeLancamento()+")" : "Série: " + this.getNome() + " ("+this.getAnoDeLancamento()+")";
-
+    @Override
+    public String toString() {
+        if (this instanceof Filme) {
+            return "Filme: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+        } else if (this instanceof Serie) {
+            return "Serie: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+        } else {
+            return "Titulo: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+        }
     }
 
     @Override

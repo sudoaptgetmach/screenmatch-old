@@ -1,10 +1,18 @@
 package org.mach.http;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.mach.modelos.Titulo;
+import org.mach.modelos.TituloOmdb;
+
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class OMDBClient {
@@ -21,7 +29,8 @@ public class OMDBClient {
             throw new RuntimeException("API key not found in environment variables");
         }
 
-        String endereco = "https://omdbapi.com/?t=" + busca;
+        String encodedBusca = URLEncoder.encode(busca, StandardCharsets.UTF_8);
+        String endereco = "https://omdbapi.com/?t=" + encodedBusca;
         if (!anoInput.isEmpty()) {
             endereco += "&y=" + anoInput;
         }
@@ -34,6 +43,15 @@ public class OMDBClient {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
+        String json = response.body();
+        System.out.println(json);
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .create();
+        TituloOmdb titulo = gson.fromJson(json, TituloOmdb.class);
+
+        Titulo meuTitulo = new Titulo(titulo);
+        System.out.println(meuTitulo);
     }
 }
