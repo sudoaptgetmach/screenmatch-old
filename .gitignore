@@ -37,3 +37,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/filmes.json
+/filmes.txt
+/.idea/developer-tools.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/uiDesigner.xml
