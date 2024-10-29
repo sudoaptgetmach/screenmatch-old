@@ -29,29 +29,36 @@ public class OMDBClient {
             throw new RuntimeException("API key not found in environment variables");
         }
 
-        String encodedBusca = URLEncoder.encode(busca, StandardCharsets.UTF_8);
-        String endereco = "https://omdbapi.com/?t=" + encodedBusca;
-        if (!anoInput.isEmpty()) {
-            endereco += "&y=" + anoInput;
+        try {
+
+            String encodedBusca = URLEncoder.encode(busca, StandardCharsets.UTF_8);
+            String endereco = "https://omdbapi.com/?t=" + encodedBusca;
+            if (!anoInput.isEmpty()) {
+                endereco += "&y=" + anoInput;
+            }
+            endereco += "&apikey=" + apiKey;
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endereco))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            String json = response.body();
+            System.out.println(json);
+
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                    .create();
+            TituloOmdb titulo = gson.fromJson(json, TituloOmdb.class);
+
+            Titulo meuTitulo = new Titulo(titulo);
+            System.out.println(meuTitulo);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Aconteceu um erro de argumento: ");
+            System.out.println(e.getMessage());
         }
-        endereco += "&apikey=" + apiKey;
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(endereco))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        String json = response.body();
-        System.out.println(json);
-
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .create();
-        TituloOmdb titulo = gson.fromJson(json, TituloOmdb.class);
-
-        Titulo meuTitulo = new Titulo(titulo);
-        System.out.println(meuTitulo);
     }
 }
