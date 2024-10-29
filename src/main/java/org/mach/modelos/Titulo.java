@@ -32,7 +32,7 @@ public class Titulo implements Classificavel, Comparable<Titulo> {
     public Titulo(TituloOmdb titulo) {
         this.nome = titulo.title();
         this.anoDeLancamento = Integer.parseInt(titulo.year());
-        this.duracaoEmMinutos = Integer.parseInt(titulo.runtime().substring(0, 3));
+        this.duracaoEmMinutos = Integer.parseInt(titulo.runtime().substring(0, 3).trim());
         this.fichatecnica = titulo.plot();
     }
 
@@ -81,11 +81,11 @@ public class Titulo implements Classificavel, Comparable<Titulo> {
     @Override
     public String toString() {
         if (this instanceof Filme) {
-            return "Filme: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+            return "Filme: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica() + "\n";
         } else if (this instanceof Serie) {
-            return "Serie: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+            return "Serie: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica() + "\n";
         } else {
-            return "Titulo: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica();
+            return "Titulo: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")" + "\nDuração: " + this.getDuracaoEmMinutos() + "\nSinopse: " + this.getFichatecnica() + "\n";
         }
     }
 
